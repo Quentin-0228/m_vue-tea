@@ -1,0 +1,215 @@
+一、项目第一个sdk是：短信验证码登录|注册
+
+二、Vuex 
+		对海量数据进行管理,用models进行拆分
+
+	地址管理
+	订单管理
+	购物车数据管理
+  
+三、router 
+		进行页面跳转
+
+四、导航守卫（当我们拦截，如果是登录状态就登录，反之进行拦截）
+
+五、支付、分享
+
+技术选型 为什么采用某框架？ vue Angular  react
+	1、领导安排(熟悉)
+	2、vue合适，比如接触到VR的项目 可能用react更方便
+
+一、路径上的配置
+
+		vue.config.js 配置了@代表src目录
+
+	代码：
+
+		let path = require("path");
+		module.exports = {
+			configureWebpack: (config) => {
+		    	config.resolve = { 
+		      		extensions: ['.js', '.json', '.vue'],
+		      		alias: {
+		       	 		'@': path.resolve(__dirname, './src'),
+		      		}
+		    	}
+		  	}
+		}
+
+二、定义tabbar
+
+	跳转this.$router.xxx  
+
+	判断：如果是当前路由切换，就不跳转(return)
+
+三、目录分配
+
+	views 		===》 页面
+	components  ===》页面中的组件（模块）
+
+四、头部topbar切换插件
+
+	4.1 下载插件
+	
+		npm install ly-tab -S
+		
+	4.2 引入插件
+	
+		import LyTab from 'ly-tab'
+		Vue.use(LyTab)
+
+五、swiper插件
+
+	5.1 下载
+		npm install vue-awesome-swiper@3.1.3 -S
+		
+六、better-scroll滚动插件
+	
+	6.1 下载插件
+		
+		npm install better-scroll -S 
+	
+	6.2 引入配置
+	
+		import BetterScroll from 'better-scroll'
+		let bs = new BetterScroll('.wrapper', {
+		  movable: true,
+		  zoom: true
+		})
+		
+	子元素高度比父元素高度要高，必须添加在mounted中
+	
+七、vue中的ref ： 获取dom
+	
+	设置：<div ref='aaa'></div>
+	
+	获取：this.$refs.aaa
+	
+八、当dom更新完在加载?
+
+	this.$nextTick(()=>{
+		
+	})
+	
+九、mint-ui
+
+	9.1 下载
+		npm install mint-ui -S
+	9.2 引入
+		import MintUI from 'mint-ui'
+		import 'mint-ui/lib/style.css'
+		Vue.use(MintUI)
+		
+十、axios 二次封装 
+
+	在企业的项目中，肯定会对于axios进行二次封装，提升方便性和维护性
+
+十一、引入sass
+
+	11.1 安装下载
+		
+		npm install node-sass@4.14.1 -S
+		npm install sass-loader@8.x -S
+		
+	12.2 使用
+		
+		<style scoped lang='scss'></style>
+		
+十二、better-scroll默认取消click事件
+	
+	解决：
+		new BetterScroll(this.$refs.left,{
+			click:true
+		});
+		
+十三、etter-scroll默认取消scroll事件
+
+	probeType：默认为0
+	建议修改成：2|3
+	
+十四、路由传值
+
+	显式：
+		this.$router.push({
+			path:'/detail',
+			query:{
+				id
+			}
+		})
+	
+	隐式：
+		this.$router.push({
+			name:'Detail',
+			params:{
+				id
+			}
+		})
+
+十五、keep-alive : 是一个vue的内置组件
+
+	作用：缓存组件
+	优势：提升性能
+	只要用到keep-alive会再多俩个生命周期 : activated、deactivated
+	
+	
+十六、接入短信验证码 SDK
+
+	api链接：https://github.com/qcloudsms/qcloudsms_js
+
+	16.1 下载
+		npm install qcloudsms_js
+        
+十七、vant
+    
+    17.1 下载
+    
+        npm i vant -S
+        
+    17.2 引入
+    
+        import Vant from 'vant';
+        import 'vant/lib/index.css';
+        Vue.use(Vant);
+
+十八、token（令牌）
+    
+    18.1 什么是token：token是一个令牌，用来验证用户的。
+
+    18.2 作用（场景） ： 验证用户
+    
+    18.3 token是后端生成的 , 并且token是不能重复的
+    
+        1. 下载
+        
+            npm install jsonwebtoken
+            
+        2. 引入
+        
+            require('jsonwebtoken');
+            
+        3. 生成token语法
+            
+            jwt.sign( 用户信息 , 口令 , 过期时间)
+        
+        4. 解析token
+        
+           jwt.decode(token);
+    
+    18.4 token使用流程：
+    
+        1.客户端使用用户名跟密码请求登录
+        2.服务端收到请求，去验证用户名与密码
+        3.验证成功后，服务端会签发一个 Token，再把这个 Token 发送给客户端
+        4.客户端收到 Token 以后可以把它存储起来，比如放在 Cookie 里或者 Local Storage 里
+        5.客户端每次向服务端请求资源的时候需要带着服务端签发的 Token
+        6.服务端收到请求，然后去验证客户端请求里面带着的 Token，如果验证成功，就向客户端返回请求的数据
+
+十九、对接支付宝沙箱(进行支付)nodejs
+    
+    
+    api链接：https://github.com/alipay/alipay-sdk-nodejs-all
+    api链接：https://www.yuque.com/chenqiu/alipay-node-sdk/config-sdk
+
+    
+    ***测试支付，一定要用无痕浏览
+
